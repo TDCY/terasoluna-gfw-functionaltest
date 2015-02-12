@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.terasoluna.gfw.functionaltest</groupId>
         <artifactId>terasoluna-gfw-functionaltest-parent</artifactId>
-        <version>1.0.1.RELEASE</version>
+        <version>5.0.0.RC7</version>
         <relativePath>../terasoluna-gfw-functionaltest-parent/pom.xml</relativePath>
     </parent>
     <name>TERASOLUNA Global Framework - Functionality Test Application - DB Init</name>
@@ -13,7 +13,7 @@
     <artifactId>terasoluna-gfw-functionaltest-initdb</artifactId>
 
     <properties>
-        <postgresql.version>8.3-606.jdbc3</postgresql.version>
+        <postgresql.version>9.3-1102-jdbc41</postgresql.version>
     </properties>
 
     <profiles>
@@ -29,7 +29,7 @@
                 <db.username>postgres</db.username>
                 <db.password>P0stgres</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
-                <db.groupId>postgresql</db.groupId>
+                <db.groupId>org.postgresql</db.groupId>
                 <db.artifactId>postgresql</db.artifactId>
                 <db.version>${postgresql.version}</db.version>
                 <db.delimiterType>row</db.delimiterType>
@@ -43,7 +43,7 @@
                 <db.url>jdbc:oracle:thin:@localhost:1521:teradb</db.url>
                 <db.username>gfw</db.username>
                 <db.password>gfw</db.password>
-                <db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
+                <db.driver>oracle.jdbc.OracleDriver</db.driver>
                 <db.groupId>com.oracle</db.groupId>
                 <db.artifactId>ojdbc6</db.artifactId>
                 <db.version>${ojdbc6.version}</db.version>

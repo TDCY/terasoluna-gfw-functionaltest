@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -146,6 +146,17 @@ public class PaginationController {
     
     @RequestMapping(value="1_10", method = RequestMethod.GET)
     public String fuinctionTest_1_10(Model model,
+                @PageableDefault(value=15) Pageable pageable) {
+        
+        Page<Person> page = paginationService.findPerson(pageable);
+        
+        model.addAttribute("page", page);
+        
+        return "pagination/pagination";
+    }
+    
+    @RequestMapping(value="1_11", method = RequestMethod.GET)
+    public String fuinctionTest_1_11(Model model,
                 @PageableDefault(value=15) Pageable pageable) {
         
         Page<Person> page = paginationService.findPerson(pageable);
@@ -474,7 +485,7 @@ public class PaginationController {
         return "pagination/pager";
     }
     
-    @RequestMapping(value = { "20_1", "20_2", "20_3" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "20_1", "20_2", "20_3", "20_4", "20_5" }, method = RequestMethod.GET)
     public String fuinctionTest_20_x(PersonSearchForm form,
             @PageableDefault(sort = "personId") Pageable pageable, Model model) {
 
@@ -488,6 +499,76 @@ public class PaginationController {
         model.addAttribute("page", page);
 
         return "pagination/search";
+    }
+    
+    @RequestMapping(value = { "21_1", "21_1/{page}/{size}", "21_2", "21_2/{page}/{size}" }, method = RequestMethod.GET)
+    public String fuinctionTest_21_x(PersonSearchForm form,
+            @PageableDefault(sort = "personId") Pageable pageable, Model model) {
+
+        if (!StringUtils.hasLength(form.getName())) {
+            return "pagination/searchPathTmplAndCriteriaQuery";
+        }
+
+        Page<Person> page = paginationService.findPersonByName(form.getName(),
+                pageable);
+
+        model.addAttribute("page", page);
+
+        return "pagination/searchPathTmplAndCriteriaQuery";
+    }
+    
+    @RequestMapping(value = { "22_1", "22_2"}, method = RequestMethod.GET)
+    public String fuinctionTest_22_x(PersonSearchForm form,
+            @PageableDefault(sort = "personId", direction=Direction.DESC) Pageable pageable, Model model) {
+
+        if (!StringUtils.hasLength(form.getName())) {
+            return "pagination/searchQueryTmplAndCriteriaQuery";
+        }
+
+        Page<Person> page = paginationService.findPersonByName(form.getName(),
+                pageable);
+
+        model.addAttribute("page", page);
+
+        return "pagination/searchQueryTmplAndCriteriaQuery";
+    }
+    
+    @RequestMapping(value = { "23_1", "23_1/{page}/{size}","23_2", "23_2/{page}/{size}" }, method = RequestMethod.GET)
+    public String fuinctionTest_23_x(PersonSearchForm form,
+            @PageableDefault(sort = "firstname", direction=Direction.DESC) Pageable pageable, Model model) {
+
+        if (!StringUtils.hasLength(form.getName())) {
+            return "pagination/searchPathTmplAndQueryTmplAndCriteriaQuery";
+        }
+
+        Page<Person> page = paginationService.findPersonByName(form.getName(),
+                pageable);
+
+        model.addAttribute("page", page);
+
+        return "pagination/searchPathTmplAndQueryTmplAndCriteriaQuery";
+    }
+
+    @RequestMapping(value="24_1", method = RequestMethod.GET)
+    public String fuinctionTest_24_1(Model model,
+                @PageableDefault(value=15) Pageable pageable) {
+        
+        Page<Person> page = paginationService.findPerson(pageable);
+        
+        model.addAttribute("page", page);
+        
+        return "pagination/enableLinkOfCurrentPage";
+    }
+
+    @RequestMapping(value="25_1", method = RequestMethod.GET)
+    public String fuinctionTest_25_1(Model model,
+                @PageableDefault(value=15) Pageable pageable) {
+        
+        Page<Person> page = paginationService.findPerson(pageable);
+        
+        model.addAttribute("page", page);
+        
+        return "pagination/disabledPageLinkWithJavaScript";
     }
 
 }

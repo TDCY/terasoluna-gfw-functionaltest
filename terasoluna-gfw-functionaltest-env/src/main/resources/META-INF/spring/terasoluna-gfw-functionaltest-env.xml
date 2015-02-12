@@ -11,19 +11,19 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <bean id="dateFactory" class="org.terasoluna.gfw.common.date.DefaultDateFactory" />
+    <bean id="dateFactory" class="org.terasoluna.gfw.common.date.jodatime.DefaultJodaTimeDateFactory" />
 
-    <bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+    <bean id="realDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
         destroy-method="close">
         <property name="driverClassName" value="${database.driverClassName}" />
         <property name="url" value="${database.url}" />
         <property name="username" value="${database.username}" />
         <property name="password" value="${database.password}" />
         <property name="defaultAutoCommit" value="false" />
-        <property name="maxActive" value="${cp.maxActive}" />
+        <property name="maxTotal" value="${cp.maxActive}" />
         <property name="maxIdle" value="${cp.maxIdle}" />
         <property name="minIdle" value="${cp.minIdle}" />
-        <property name="maxWait" value="${cp.maxWait}" />
+        <property name="maxWaitMillis" value="${cp.maxWait}" />
     </bean>
 
     <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
@@ -77,8 +77,8 @@
 
     <jdbc:initialize-database data-source="dataSource"
         ignore-failures="ALL">
-        <jdbc:script location="classpath:/database/${database}-schema.sql" />
-        <jdbc:script location="classpath:/database/${database}-dataload.sql" />
+        <jdbc:script location="classpath:/database/${database}-schema.sql" encoding="UTF-8" />
+        <jdbc:script location="classpath:/database/${database}-dataload.sql" encoding="UTF-8" />
     </jdbc:initialize-database>
     
     <bean id="dataSourceTransactionManager"
@@ -86,7 +86,9 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <!-- Workaround for SPR-12577 -->
+    <!-- https://github.com/spring-projects/spring-data-jpa/commit/1b03b6dcf3fc862f11981b3ba15773b202b9d116 -->
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" primary="true">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
@@ -97,7 +99,7 @@
     </bean>
 
     <!-- Settings for DbAppender of logback. -->
-    <bean id="realDataSourceForLogging" class="org.apache.commons.dbcp.BasicDataSource"
+    <bean id="realDataSourceForLogging" class="org.apache.commons.dbcp2.BasicDataSource"
         destroy-method="close">
         <property name="driverClassName" value="org.h2.Driver" />
         <property name="url"

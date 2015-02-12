@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.terasoluna.gfw.functionaltest</groupId>
         <artifactId>terasoluna-gfw-functionaltest-parent</artifactId>
-        <version>1.0.1.RELEASE</version>
+        <version>5.0.0.RC7</version>
         <relativePath>../terasoluna-gfw-functionaltest-parent/pom.xml</relativePath>
     </parent>
     <name>TERASOLUNA Global Framework - Functionality Test Application - Environment Layer</name>
@@ -135,5 +135,14 @@
             <type>pom</type>
         </dependency>
         <!-- == End TERASOLUNA == -->
+
+        <!-- == Begin Unit Test == -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- == End Unit Test == -->
+
     </dependencies>
 </project>

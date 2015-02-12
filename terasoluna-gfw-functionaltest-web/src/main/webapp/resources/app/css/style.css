@@ -309,6 +309,7 @@ padding-left: 0px;
 
 .pagination .active a {
     color: #999999;
+    cursor: default;
 }
 
 .pagination .disabled a,.pagination .disabled a:hover {
@@ -683,6 +684,11 @@ input.mainbtn-wide {
   border-color: #bce8f1;
 }
 .alert.alert-warn {
+  background: #ffe5c7;
+  color: #ff971e;
+  border-color: #ffdbb3;
+}
+.alert.alert-warning {
   background: #ffe5c7;
   color: #ff971e;
   border-color: #ffdbb3;

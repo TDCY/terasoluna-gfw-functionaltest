@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ public class BusinessTestException extends ResultMessagesNotificationException {
     private static final long serialVersionUID = 1L;
     
     public BusinessTestException(String message) {
-        super(ResultMessages.warn().add(ResultMessage.fromText(message)));
+        super(ResultMessages.warning().add(ResultMessage.fromText(message)));
     }
 
     public BusinessTestException(String code, String message) {
-        super(ResultMessages.warn().add(ResultMessage.fromCode(code, message)));
+        super(ResultMessages.warning().add(ResultMessage.fromCode(code, message)));
     }
     
 }

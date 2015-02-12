@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,18 @@ import org.terasoluna.gfw.functionaltest.domain.model.Todo;
 
 public interface QueryEscapeService {
 
-	List<Todo> findAllByTitleLikePrefix(String title);
-	
-	List<Todo> findAllByTitleLikeSuffix(String title);
-	
-	List<Todo> findAllByTitleLikePartical(String title);
+    List<Todo> findAllByTitleLikePrefix(String title);
+
+    List<Todo> findAllByTitleLikeSuffix(String title);
+
+    List<Todo> findAllByTitleLikePartical(String title);
+
+    List<Todo> findAllByTitleLikePrefixEscapingFullWidthWildCard(
+            String todoTitle);
+
+    List<Todo> findAllByTitleLikeSuffixEscapingFullWidthWildCard(
+            String todoTitle);
+
+    List<Todo> findAllByTitleLikeParticalEscapingFullWidthWildCard(
+            String todoTitle);
 }

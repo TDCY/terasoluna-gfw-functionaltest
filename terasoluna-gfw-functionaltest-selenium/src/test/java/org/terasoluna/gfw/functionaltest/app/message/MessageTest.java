@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.terasoluna.gfw.functionaltest.app.message;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -30,6 +31,11 @@ import org.terasoluna.gfw.functionaltest.app.FunctionTestSupport;
 public class MessageTest extends FunctionTestSupport {
 
     public MessageTest() {
+    }
+
+    @Before
+    public void setupDefaultLanguage(){
+        driver.findElement(By.id("English")).click();
     }
 
     @Test
@@ -105,8 +111,8 @@ public class MessageTest extends FunctionTestSupport {
     }
 
     @Test
-    public void test01_05_defaultSpecified() {
-        driver.findElement(By.id("defaultSpecified_01_05")).click();
+    public void test01_05_01_defaultSpecified() {
+        driver.findElement(By.id("defaultSpecified_01_05_01")).click();
 
         // div ul li Tag confirm
         // Message Confirm
@@ -115,6 +121,23 @@ public class MessageTest extends FunctionTestSupport {
 
         // <div> Tag class is "alert alert-warn"
         assertThat(driver.findElement(By.cssSelector("div.alert.alert-warn"))
+                .getText(), is("Hello World!!"));
+
+        // screen capture
+        screenCapture.save(driver);
+    }
+
+    @Test
+    public void test01_05_02_defaultSpecified() {
+        driver.findElement(By.id("defaultSpecified_01_05_02")).click();
+
+        // div ul li Tag confirm
+        // Message Confirm
+        assertThat(driver.findElement(By.xpath("/html/body/div/div/ul/li"))
+                .getText(), is("Hello World!!"));
+
+        // <div> Tag class is "alert alert-warn"
+        assertThat(driver.findElement(By.cssSelector("div.alert.alert-warning"))
                 .getText(), is("Hello World!!"));
 
         // screen capture
@@ -458,7 +481,7 @@ public class MessageTest extends FunctionTestSupport {
                 .getText(), is("Warn Message!!"));
 
         // <div> Tag class is "alert alert-warn"
-        assertThat(driver.findElement(By.cssSelector("div.alert.alert-warn"))
+        assertThat(driver.findElement(By.cssSelector("div.alert.alert-warning"))
                 .getText(), is("Warn Message!!"));
 
         // screen capture
@@ -475,7 +498,7 @@ public class MessageTest extends FunctionTestSupport {
                 .getText(), is("Warn Message!!"));
 
         // <div> Tag class is "alert alert-warn"
-        assertThat(driver.findElement(By.cssSelector("div.alert.alert-warn"))
+        assertThat(driver.findElement(By.cssSelector("div.alert.alert-warning"))
                 .getText(), is("Warn Message!!"));
 
         // screen capture
@@ -494,7 +517,7 @@ public class MessageTest extends FunctionTestSupport {
                 .getText(), is("Error Message!!"));
 
         // <div> Tag class is "alert alert-warn"
-        assertThat(driver.findElement(By.cssSelector("div.alert.alert-warn"))
+        assertThat(driver.findElement(By.cssSelector("div.alert.alert-warning"))
                 .getTagName(), is("div"));
 
         // screen capture
@@ -621,7 +644,6 @@ public class MessageTest extends FunctionTestSupport {
 
     @Test
     public void test07_04_outputMessage() {
-        driver.findElement(By.id("English")).click();
         driver.findElement(By.id("outputMessage_07_04")).click();
 
         // div ul li Tag confirm

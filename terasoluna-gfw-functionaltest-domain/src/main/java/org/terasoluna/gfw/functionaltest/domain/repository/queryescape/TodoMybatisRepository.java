@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,5 +21,18 @@ import org.terasoluna.gfw.functionaltest.domain.model.Todo;
 
 public interface TodoMybatisRepository {
 
-    List<Todo> findAllByTitleLike(String todoTitle);
+    List<Todo> findAllByTitleLikePrefix(String todoTitle);
+
+    List<Todo> findAllByTitleLikeSuffix(String todoTitle);
+
+    List<Todo> findAllByTitleLikePartical(String todoTitle);
+
+    List<Todo> findAllByTitleLikePrefixEscapingFullWidthWildCard(
+            String todoTitle);
+
+    List<Todo> findAllByTitleLikeSuffixEscapingFullWidthWildCard(
+            String todoTitle);
+
+    List<Todo> findAllByTitleLikeParticalEscapingFullWidthWildCard(
+            String todoTitle);
 }

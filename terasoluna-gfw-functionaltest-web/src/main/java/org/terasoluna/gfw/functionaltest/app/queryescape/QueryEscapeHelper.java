@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,18 @@ package org.terasoluna.gfw.functionaltest.app.queryescape;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.terasoluna.gfw.functionaltest.domain.model.Todo;
+import org.terasoluna.gfw.functionaltest.domain.service.queryescape.DatabaseMetaInfoService;
 
 @Component
 public class QueryEscapeHelper {
+
+    @Inject
+    DatabaseMetaInfoService databaseMetaInfoService;
 
     public void bindToModel(String searchPattern, List<Todo> todoList,
             Model model) {

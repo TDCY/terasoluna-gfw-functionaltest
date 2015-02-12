@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,12 +106,28 @@ public class ElController {
         return "el/linkOutput";
     }
     
+    @RequestMapping(value="5_4", method = RequestMethod.GET)
+    public String urlEncodeLinkString() {
+        return "el/linkUOutput";
+    }
+    
     @RequestMapping(value="output_05", method = RequestMethod.POST)
     public String urlLink_InputData(@RequestParam("outputData") String outputData,
             Model model) {
         model.addAttribute("outputData", outputData);
         
         return "el/linkOutput";
+    }
+    
+    @RequestMapping(value="output_05_04")
+    public String urlULink_InputDatas(
+            String URLPath,
+            String outputQueryParam,
+            Model model) {
+        model.addAttribute("URLPath", URLPath);
+        model.addAttribute("outputQueryParam", outputQueryParam);
+        
+        return "el/linkUOutput";
     }
     
     @RequestMapping(value="6_1-2", method = RequestMethod.GET)

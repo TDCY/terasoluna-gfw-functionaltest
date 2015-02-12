@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,10 +70,18 @@ public class MessageController {
         return "message/default";
     }
     
-    @RequestMapping(value="1_5", method = RequestMethod.GET)
-    public String defaultSpecified_01_05(Model model) {
+    @RequestMapping(value="1_5_1", method = RequestMethod.GET)
+    public String defaultSpecified_01_05_01(Model model) {
         
         model.addAttribute(ResultMessages.warn().add("i.gt.me.0001"));
+        
+        return "message/default";
+    }
+    
+    @RequestMapping(value="1_5_2", method = RequestMethod.GET)
+    public String defaultSpecified_01_05_02(Model model) {
+        
+        model.addAttribute(ResultMessages.warning().add("i.gt.me.0001"));
         
         return "message/default";
     }
@@ -246,7 +254,7 @@ public class MessageController {
     @RequestMapping(value="5_1", method = RequestMethod.GET)
     public String messagesTypeSpecified_05_01(Model model) {
         
-        model.addAttribute("login_error_message", ResultMessages.warn().add(
+        model.addAttribute("login_error_message", ResultMessages.warning().add(
                 ResultMessage.fromText("Warn Message!!")));
         
         return "message/messageTypeSpecified";

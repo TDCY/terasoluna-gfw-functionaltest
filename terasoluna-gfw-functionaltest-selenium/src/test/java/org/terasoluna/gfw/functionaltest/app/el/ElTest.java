@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,20 @@
 package org.terasoluna.gfw.functionaltest.app.el;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -92,7 +96,7 @@ public class ElTest extends FunctionTestSupport {
         // output data 02_01 Test
         assertThat(
                 driver.findElement(By.id("urlOutput")).getText(),
-                is("http://localhost:8080/spring?hl=ja&tab=Tw#hl=ja&q=%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A"));
+                is("http://localhost:8080/spring?hl%3Dja%26tab%3DTw%23hl%3Dja%26q%3D%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A"));
 
         // screen capture
         screenCapture.save(driver);
@@ -107,10 +111,24 @@ public class ElTest extends FunctionTestSupport {
         // output data 02_02 Test
         assertThat(driver.findElement(By.id("urlOutput")).getText(),
                 is("http://localhost:8080/spring"));
+
+        // screen capture
+        screenCapture.save(driver);
+
+        driver.get(applicationContextUrl);
+        driver.findElement(By.id("EL")).click();
+        driver.findElement(By.id("02")).click();
+        inputFieldAccessor.overrideValue(By.id("text-output"),
+                "TEST[]#+=&TEST", driver);
+        driver.findElement(By.id("btn-output")).click();
+
+        // output data 02_03 Test
+        assertThat(driver.findElement(By.id("urlOutput")).getText(),
+                is("TEST%5B%5D%23%2B%3D%26TEST"));
     }
 
     @Test
-    public void test03_New_Line() {
+    public void test03_New_Line() throws IOException {
 
         driver.findElement(By.id("03")).click();
         inputFieldAccessor.overrideValue(By.id("text-output"),
@@ -118,17 +136,18 @@ public class ElTest extends FunctionTestSupport {
         driver.findElement(By.id("btn-output")).click();
 
         // output data 03_01 Test
-        String htmlSource = driver.getPageSource();
-
-        assertThat(htmlSource, containsString("Spring"));
-
-        if (driver instanceof FirefoxDriver) {
-            assertThat(htmlSource, containsString("<br />mvc"));
-            assertThat(htmlSource, containsString("<br />spring mvc"));
-        } else {
-            assertThat(htmlSource, containsString("<br>mvc"));
-            assertThat(htmlSource, containsString("<br>spring mvc"));
+        WebElement newLineOutput = driver.findElement(By.id("newLineOutput"));
+        BufferedReader newLineOutputTextReader = new BufferedReader(new StringReader(
+                newLineOutput.getText()));
+        try {
+            assertThat(newLineOutputTextReader.readLine(), is("Spring"));
+            assertThat(newLineOutputTextReader.readLine(), is("mvc"));
+            assertThat(newLineOutputTextReader.readLine(), is("spring mvc"));
+            assertThat(newLineOutputTextReader.readLine(), nullValue());
+        } finally {
+            newLineOutputTextReader.close();
         }
+        assertThat(newLineOutput.findElements(By.tagName("br")).size(), is(2));
 
         // screen capture
         screenCapture.save(driver);
@@ -200,7 +219,7 @@ public class ElTest extends FunctionTestSupport {
                 is("スプリングエムブイシー（ＳＰＲＩＮＧ　ＭＶＣ）、スプリングセ"));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void test05_URL_Link() {
 
         driver.findElement(By.id("05")).click();
@@ -229,7 +248,7 @@ public class ElTest extends FunctionTestSupport {
         assertThat(driver.findElement(By.id("linkOutput")).getText(),
                 is("123456789https://example.com/tour/ 01234567890"));
         // output link
-        assertThat(driver.findElement(By.linkText("http://example.com/tour/"))
+        assertThat(driver.findElement(By.linkText("https://example.com/tour/"))
                 .getText(), is("https://example.com/tour/"));
 
         // screen capture
@@ -237,6 +256,25 @@ public class ElTest extends FunctionTestSupport {
 
         driver.get(applicationContextUrl);
         driver.findElement(By.id("EL")).click();
+        driver.findElement(By.id("05_04")).click();
+        inputFieldAccessor.overrideValue(By.id("text-outputQueryParam"),
+                "tera&1", driver);
+        driver.findElement(By.id("btn-output")).click();
+        
+        // output 05_04 Test
+        assertThat(driver.findElement(By.id("linkUOutput")).getText(),
+                is("http://localhost:8080/terasoluna-gfw-functionaltest-web/el/output_05_04?name=tera%261"));
+        // output link
+        assertThat(driver.findElement(By.linkText("http://localhost:8080/terasoluna-gfw-functionaltest-web/el/output_05_04?name=tera%261"))
+                .getText(), is("http://localhost:8080/terasoluna-gfw-functionaltest-web/el/output_05_04?name=tera%261"));
+        // inheriting of query Test
+        driver.findElement(By.id("linkUOutput")).findElement(
+                By.linkText("http://localhost:8080/terasoluna-gfw-functionaltest-web/el/output_05_04?name=tera%261")).click();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void test05_URL_NO_Link() {
+
         driver.findElement(By.id("05")).click();
         inputFieldAccessor.overrideValue(By.id("text-output"),
                 "123456789ttps://example.com/tour/ 01234567890", driver);

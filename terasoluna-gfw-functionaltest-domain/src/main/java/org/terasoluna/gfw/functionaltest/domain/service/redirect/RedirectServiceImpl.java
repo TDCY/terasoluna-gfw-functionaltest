@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,24 +21,25 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.terasoluna.gfw.functionaltest.domain.TransactionManagers;
 import org.terasoluna.gfw.functionaltest.domain.model.UserInfo;
 import org.terasoluna.gfw.functionaltest.domain.repository.user.UserRepository;
 
 @Service
-@Transactional
+@Transactional(value = TransactionManagers.JPA)
 public class RedirectServiceImpl implements RedirectService {
 
     @Inject
     protected UserRepository userRepository;
     
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(value = TransactionManagers.JPA, readOnly = true)
     public List<UserInfo> findUserInfo() {
         return userRepository.findAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(value = TransactionManagers.JPA, readOnly = true)
     public UserInfo findOne(String code) {
         return userRepository.findOne(code);
     }

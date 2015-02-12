@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -315,5 +315,11 @@ public class CodeListContoller {
     public String test08_07_check(@Valid
     ExistInCheckForm form, BindingResult result, Model model) {
         return "codelist/08_07_form";
+    }
+    
+    // test case 09_01
+    @RequestMapping(value = "09_01_form", method = RequestMethod.GET)
+    public String test09_01_form(CodeListForm form, Model model) {
+        return "codelist/09_01_form";
     }
 }

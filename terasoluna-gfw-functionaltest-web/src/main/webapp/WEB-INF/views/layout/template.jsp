@@ -26,8 +26,9 @@
     <tiles:insertAttribute name="header" />
     <tiles:insertAttribute name="body" />
     <hr>
-    <p style="text-align: center; background: #e5eCf9;">Copyright
-      &copy; 2013 NTT DATA CORPORATION (X-Track:${f:h(requestScope["X-Track"])})</p>
+    <p style="text-align: center; background: #e5eCf9;">
+        <spring:message code="copyright" htmlEscape="false" />
+        <span id="xtrack">(X-Track:${f:h(requestScope["X-Track"])})</span></p>
   </div>
 </body>
 </html>

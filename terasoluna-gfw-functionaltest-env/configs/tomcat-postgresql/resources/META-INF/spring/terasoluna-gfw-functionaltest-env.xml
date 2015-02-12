@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <bean id="dateFactory" class="org.terasoluna.gfw.common.date.DefaultDateFactory" />
+    <bean id="dateFactory" class="org.terasoluna.gfw.common.date.jodatime.DefaultJodaTimeDateFactory" />
 
     <jee:jndi-lookup id="realDataSource" jndi-name="jdbc/dataSource"
         expected-type="javax.sql.DataSource" />
@@ -61,7 +61,9 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <!-- Workaround for SPR-12577 -->
+    <!-- https://github.com/spring-projects/spring-data-jpa/commit/1b03b6dcf3fc862f11981b3ba15773b202b9d116 -->
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" primary="true">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
@@ -72,7 +74,7 @@
     </bean>
 
     <!-- Settings for DbAppender of logback. -->
-    <bean id="realDataSourceForLogging" class="org.apache.commons.dbcp.BasicDataSource"
+    <bean id="realDataSourceForLogging" class="org.apache.commons.dbcp2.BasicDataSource"
         destroy-method="close">
         <property name="driverClassName" value="org.h2.Driver" />
         <property name="url"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 terasoluna.org
+ * Copyright (C) 2013-2015 terasoluna.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,30 @@ public class QueryEscapeJpaServiceImpl implements QueryEscapeService {
     @Override
     public List<Todo> findAllByTitleLikePartical(String title) {
         String condition = QueryEscapeUtils.toContainingCondition(title);
+        return queryEscapeJpaRepository.findAllByTitleLike(condition);
+    }
+
+    @Override
+    public List<Todo> findAllByTitleLikePrefixEscapingFullWidthWildCard(
+            String title) {
+        String condition = QueryEscapeUtils.withFullWidth()
+                .toStartingWithCondition(title);
+        return queryEscapeJpaRepository.findAllByTitleLike(condition);
+    }
+
+    @Override
+    public List<Todo> findAllByTitleLikeSuffixEscapingFullWidthWildCard(
+            String title) {
+        String condition = QueryEscapeUtils.withFullWidth()
+                .toEndingWithCondition(title);
+        return queryEscapeJpaRepository.findAllByTitleLike(condition);
+    }
+
+    @Override
+    public List<Todo> findAllByTitleLikeParticalEscapingFullWidthWildCard(
+            String title) {
+        String condition = QueryEscapeUtils.withFullWidth()
+                .toContainingCondition(title);
         return queryEscapeJpaRepository.findAllByTitleLike(condition);
     }
 }
